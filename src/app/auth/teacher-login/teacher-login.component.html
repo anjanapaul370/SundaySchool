@@ -1,0 +1,58 @@
+<h1 id="title" class="title">Login</h1>
+<p class="sub-title">Hello Teacher! Log in with your email.</p>
+    <form
+      [formGroup]="studentloginForm"
+      (ngSubmit)="onSubmit()"
+      aria-labelledby="title "
+    >
+      <div class="form-control-group">
+        <nb-form-field>
+          <label class="label" for="input-password">Username :</label>
+          <input
+            nbInput
+            type="email" [email]="true"
+            name="email"
+            formControlName="email"
+            placeholder="Enter your Username"
+            fullWidth
+            fieldSize="medium"
+            autofocus
+          />
+          <div *ngIf="submitted && f.email.errors">
+            <div *ngIf="f.email.errors.required">
+              <mat-error> Username is required</mat-error>
+            </div>
+          </div>
+        </nb-form-field>
+      </div>
+      <br />
+
+      <div class="form-control-group">
+        <label class="label" for="input-password">Password:</label>
+        <nb-form-field>
+          <input
+            nbInput
+            type="password"
+            name="password"
+            formControlName="password"
+            placeholder="Enter your password"
+            fullWidth
+            fieldSize="medium"
+          />
+          <div *ngIf="submitted && f.password.errors">
+            <div *ngIf="f.password.errors.required">
+              <mat-error> Password is required</mat-error>
+            </div>
+            <div *ngIf="f.password.errors.minlength">
+              <mat-error>Password must be at least 6 characters</mat-error>
+            </div>
+          </div>
+        </nb-form-field>
+      </div>
+      <br />
+      <button nbButton type="submit" status="primary" fullWidth size="medium">
+        Login
+      </button>
+    </form>
+
+

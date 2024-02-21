@@ -1,0 +1,92 @@
+<div *ngIf="admin">
+  <mat-form-field appearance="fill">
+    <mat-label>Select a class</mat-label>
+    <mat-select matInput (valueChange)="classValue($event)">
+      <mat-option *ngFor="let class of classes" [value]="class.id">
+        {{ class.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<div *ngIf="teacher || loaded">
+  <mat-form-field appearance="fill" style="margin-right: 20%">
+    <mat-label>Choose a date</mat-label>
+    <input
+      matInput
+      [matDatepicker]="picker"
+      [(ngModel)]="today"
+      [min]="minDate"
+      [max]="maxDate"
+      (dateInput)="getDate($event)"
+    />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <button
+    *ngIf="teacher"
+    fxFlex="40%"
+    mat-mini-fab
+    color="grey"
+    (click)="openAddAttendance()"
+    matTooltip="Add Attendance"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
+
+  <div *ngIf="record && record?.present?.length !== 0">
+    <form class="example-form" [formGroup]="formGroup">
+      <mat-table [dataSource]="dataSource" matSort align="center">
+        <ng-container matColumnDef="student">
+          <mat-header-cell *matHeaderCellDef mat-sort-header
+            >Student</mat-header-cell
+          >
+          <mat-cell *matCellDef="let element">{{ element.name }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="present">
+          <mat-header-cell *matHeaderCellDef>Present</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <mat-checkbox [formControlName]="element.id" [disabled]="true" color="warn"></mat-checkbox>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      </mat-table>
+      <!-- <button align="center" mat-raised-button type="submit">Save</button> -->
+    </form>
+    <!-- <mat-paginator [pageSize]="8" [pageSizeOptions]="[1, 5, 8, 10, 15, 20]">
+    </mat-paginator> -->
+  </div>
+
+  <!-- <div *ngIf="presentData && presentData?.present?.length!==0">
+    <mat-table [dataSource]="dataSource" matSort align="center">
+      <ng-container matColumnDef="Name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header
+          >Name</mat-header-cell
+        >
+        <mat-cell *matCellDef="let element">{{ element.name }}</mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+
+    <mat-paginator [pageSize]="8" [pageSizeOptions]="[1, 5, 8, 10, 15, 20]">
+    </mat-paginator>
+  </div> -->
+
+  <div *ngIf="!record" class="row">
+    <div class="col align-self-center">
+      <mat-card>ATTENDANCE NOT MARKED</mat-card>
+    </div>
+  </div>
+
+  <div *ngIf="record && record?.present?.length == 0" class="row">
+    <div class="col align-self-center">
+      <mat-card>ALL ARE PRESENT</mat-card>
+    </div>
+  </div>
+</div>

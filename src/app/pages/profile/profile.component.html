@@ -1,0 +1,215 @@
+<nb-card>
+  <nb-card-body>
+    <mat-card>
+      <mat-card-header>
+        <div mat-card-avatar style="margin-left: 10px">
+          <mat-icon>perm_identity</mat-icon>
+        </div>
+        <mat-card-title>{{ this.loginUser?.name }}</mat-card-title>
+        <mat-card-subtitle *ngIf="admin">Admin</mat-card-subtitle>
+        <mat-card-subtitle *ngIf="teacher">Teacher</mat-card-subtitle>
+        <mat-card-subtitle *ngIf="!admin && !teacher"
+          >Student</mat-card-subtitle
+        >
+      </mat-card-header>
+      <br />
+    </mat-card>
+    <mat-tab-group animationDuration="1ms">
+      <!-- About section -->
+      <mat-tab label="About">
+        <mat-card class="spacing">
+          <h5 id="title" class="title">Personal Details</h5>
+          <table>
+            <tr>
+              <td>Name</td>
+              <td>{{ this.loginUser?.name }}</td>
+            </tr>
+            <tr>
+              <td>Email</td>
+              <td>{{ this.loginUser?.email }}</td>
+            </tr>
+            <tr>
+              <td>Phone Number &nbsp;&nbsp;</td>
+              <td>{{ this.loginUser?.mob }}</td>
+            </tr>
+          </table>
+          <!-- <mat-card-content>
+            <form [formGroup]="profileForm" (ngSubmit)="profileSubmit()" aria-labelledby="title">
+
+              <div class="form-control-group">
+                <nb-form-field>
+                  <label class="label" for="name">Name :</label>
+                  <input
+                    nbInput
+                    name="name"
+                    formControlName="name"
+                    placeholder="Enter your Name"
+                    fullWidth
+                    fieldSize="medium"
+                    autofocus
+                  />
+                  <div *ngIf="submitted && f.name.errors">
+                    <div *ngIf="f.name.errors.required">
+                      <mat-error> Name is required</mat-error>
+                    </div>
+                  </div>
+                </nb-form-field>
+              </div>
+
+              <div class="form-control-group">
+                <nb-form-field>
+                  <label class="label" for="email">Email :</label>
+                  <input
+                    nbInput
+                    name="email"
+                    formControlName="email"
+                    placeholder="Enter your Email"
+                    fullWidth
+                    fieldSize="medium"
+                    autofocus
+                  />
+                  <div *ngIf="submitted && f.email.errors">
+                    <div *ngIf="f.email.errors.required">
+                      <mat-error> Email is required</mat-error>
+                    </div>
+                  </div>
+                </nb-form-field>
+              </div>
+
+              <div class="form-control-group">
+                <nb-form-field>
+                  <label class="label" for="phone">Phone Number :</label>
+                  <input
+                    nbInput
+                    name="phone"
+                    formControlName="phone"
+                    placeholder="Enter your Phone Number"
+                    fullWidth
+                    fieldSize="medium"
+                    autofocus
+                  />
+                  <div *ngIf="submitted && f.phone.errors">
+                    <div *ngIf="f.phone.errors.required">
+                      <mat-error> Phone Number is required</mat-error>
+                    </div>
+                  </div>
+                </nb-form-field>
+              </div>
+
+              <div class="form-control-group">
+                <nb-form-field>
+                  <label class="label" for="address">Address :</label>
+                  <input
+                    nbInput
+                    name="address"
+                    formControlName="address"
+                    placeholder="Enter your Address"
+                    fullWidth
+                    fieldSize="medium"
+                    autofocus
+                  />
+                  <div *ngIf="submitted && f.address.errors">
+                    <div *ngIf="f.address.errors.required">
+                      <mat-error> Address is required</mat-error>
+                    </div>
+                  </div>
+                </nb-form-field>
+              </div>
+              <br />
+
+              <button nbButton type="submit" status="primary" fullWidth size="medium">
+                Save Profile
+              </button>
+
+            </form>
+          </mat-card-content> -->
+        </mat-card>
+      </mat-tab>
+
+      <!-- password section -->
+      <mat-tab label="Password">
+        <mat-card class="spacing">
+          <h5 id="title" class="title">Change password</h5>
+          <form
+            [formGroup]="changeForm"
+            (ngSubmit)="onSubmit()"
+            aria-labelledby="title"
+          >
+            <div class="form-control-group">
+              <label class="label" for="input-password">Old Password:</label>
+              <input
+                nbInput
+                type="password"
+                name="oldpassword"
+                formControlName="oldpassword"
+                placeholder="Old Password"
+                fullWidth
+                fieldSize="medium"
+              />
+              <div *ngIf="!change && submitted && f.oldpassword.errors">
+                <div *ngIf="f.oldpassword.errors.required">
+                  <mat-error> Password is required</mat-error>
+                </div>
+                <div *ngIf="f.oldpassword.errors.minlength">
+                  <mat-error>Password must be at least 6 characters</mat-error>
+                </div>
+              </div>
+            </div>
+            <div class="form-control-group">
+              <label class="label" for="input-password">New Password:</label>
+              <input
+                nbInput
+                type="password"
+                name="newpassword"
+                formControlName="newpassword"
+                placeholder="New Password"
+                fullWidth
+                fieldSize="medium"
+              />
+              <div *ngIf="!change && submitted && f.newpassword.errors">
+                <div *ngIf="f.newpassword.errors.required">
+                  <mat-error> New Password is required</mat-error>
+                </div>
+                <div *ngIf="f.newpassword.errors.minlength">
+                  <mat-error>Password must be at least 6 characters</mat-error>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="label" for="input-re-password"
+                >Confirm Password:</label
+              >
+              <input
+                nbInput
+                type="password"
+                name="confirmpassword"
+                formControlName="confirmpassword"
+                placeholder="Confirm Password"
+                fullWidth
+                fieldSize="medium"
+              />
+              <div *ngIf="!change && submitted && f.confirmpassword.errors">
+                <div *ngIf="f.confirmpassword.errors.required">
+                  <mat-error>Confirm Password is required</mat-error>
+                </div>
+                <div *ngIf="f.confirmpassword.errors.MustMatch">
+                  <mat-error>Confirm Password didn't match</mat-error>
+                </div>
+              </div>
+            </div>
+            <br />
+            <button
+              nbButton
+              type="submit"
+              status="primary"
+              fullWidth
+              size="medium"
+            >
+              Change password
+            </button>
+          </form>
+        </mat-card>
+      </mat-tab>
+    </mat-tab-group>
+  </nb-card-body>
+</nb-card>

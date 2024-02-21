@@ -1,0 +1,111 @@
+<div *ngIf="admin">
+  <mat-form-field appearance="fill">
+    <mat-label>Select a class</mat-label>
+    <mat-select matInput (valueChange)="classValue($event)">
+      <mat-option *ngFor="let class of classes" [value]="class.id">
+        {{ class.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<div *ngIf="teacher || loaded">
+  <div fxLayoutAlign="center center">
+    <mat-form-field fxFlex="40%">
+      <input
+        matInput
+        type="text"
+        (keyup)="doFilter(filteredValue.value)"
+        placeholder="Filter"
+        #filteredValue
+      />
+    </mat-form-field>
+
+    <!--add new class-->
+    <button
+      fxFlex="40%"
+      style="margin-left: 50%"
+      mat-mini-fab
+      color="grey"
+      (click)="openDialog()"
+      matTooltip="Add new student"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+  <mat-table [dataSource]="dataSource" matSort align="center">
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.name }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="parent_name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Parent Name</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.parent_name }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="parent_mob">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Parent Mobile</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.parent_mob }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <mat-header-cell *matHeaderCellDef>Email-ID</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.email }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="mob">
+      <mat-header-cell *matHeaderCellDef>Mobile</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.mob }}</mat-cell>
+    </ng-container>
+    <!--
+    <ng-container matColumnDef="parent_name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header
+        >Parent Name</mat-header-cell
+      >
+      <mat-cell *matCellDef="let element">{{ element.parent_id }}</mat-cell>
+    </ng-container> -->
+
+    <ng-container class="space" matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef>Options</mat-header-cell>
+      <mat-cell *matCellDef="let student">
+        <button
+          mat-icon-button
+          [matMenuTriggerFor]="menu"
+          matTooltip="more options"
+          matTooltipPosition="right"
+        >
+          <mat-icon>more_vert</mat-icon>
+        </button>
+
+        <mat-menu #menu="matMenu">
+          <button *ngIf= "student.isNewUser" mat-menu-item (click)="resend(student)">
+            <mat-icon>mail</mat-icon>
+            <span>Resend Mail</span>
+          </button>
+          <button mat-menu-item (click)="viewStudent(student)">
+            <mat-icon>view_list</mat-icon>
+            <span>View</span>
+          </button>
+          <button mat-menu-item (click)="editDialog(student)">
+            <mat-icon>edit</mat-icon>
+            <span>Edit</span>
+            <!-- <div *ngIf="editState && itemToEdit.id == item.id"></div> -->
+          </button>
+          <button mat-menu-item (click)="deleteAlert(student)">
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+        </mat-menu>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </mat-table>
+
+  <mat-paginator [pageSize]="8" [pageSizeOptions]="[1, 5, 8, 10, 15, 20]">
+  </mat-paginator>
+</div>
+
+<div *ngIf="!dataSource.data">NO RECORD FOUND</div>

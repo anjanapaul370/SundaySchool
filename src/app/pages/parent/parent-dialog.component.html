@@ -1,0 +1,46 @@
+<div align="center" *ngIf="loaded">
+  <form [formGroup]="parentForm" (ngSubmit)="onSubmit()">
+    <div mat-dialog-title>Parent</div>
+    <div mat-dialog-content>
+      <ng-container *ngIf="data.type !== 'view';
+      else elseTemplate">
+        <!-- for edit & add -->
+        <mat-form-field appearance="fill">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="name" />
+          <mat-error>Field must not be empty.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Email</mat-label>
+          <input type="email" matInput formControlName="email" [email]="true" />
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="fill">
+          <mat-label>Mobile</mat-label>
+          <input matInput formControlName="mob" maxlength="10" />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Address</mat-label>
+          <input matInput formControlName="address" />
+          <mat-error>Field must not be empty.</mat-error>
+        </mat-form-field>
+
+      </ng-container>
+      <!-- for view -->
+      <ng-template #elseTemplate>
+        <div>Name: {{ data._parent.name }}</div>
+        <div>Email: {{ data._parent.email }}</div>
+        <div>Mob.No.: {{ data._parent.mob }}</div>
+        <div>Address: {{ data._parent.address }}</div>
+      </ng-template>
+    </div>
+    <div mat-dialog-actions align="center">
+      <button *ngIf="data.type !== 'view'" type="submit" mat-raised-button>Ok</button>
+      <button type="button" mat-raised-button (click)="onNoClick()">
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>
